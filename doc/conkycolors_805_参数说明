@@ -1,0 +1,156 @@
+快捷键 Ctrl Alt T 在终端执行以下命令，查看conky-colors可用的参数选项
+
+ conky-colors --help
+
+	./conky-colors <options>
+
+	options:
+	-------------- LANGUAGES 语言--------------
+	--lang=<language> - Set default language
+	Languages: bg|de|en*星号表示此为默认值|et|fr|it|pl|pt|ru|es|uk没有cn中文
+汉化的方法也很简单，只要修改conkyrc配置文件中的fnot选项，改为使用系统默认自带的TTF中文字体即可。
+我的汉化脚本conkyrc-default-CN内使用的是Ubuntu 12.04 Linux系统自带的“文泉驿微米黑”，字体文件是放在 /usr/share/fonts/turetype/wqy 在conkyrc脚本中的字体调用名称为 WenQuanYi Micro Hei ，把它用作等宽字体时的字体调用名称为 WenQuanYi Micro Hei Mono 。（双击字体文件，在字体浏览器的标题栏就可以看到应该使用的字体调用名称）
+也可以使用自行下载的其他ttf或ttc字体，但需要把自定义的字体复制到 /usr/share/fonts/TTF/conky/ 目录里。例如：可以从微软windows系统的 C:\windows\Font 复制中文黑体字simhei.ttf字体到 /usr/share/fonts/TTF/conky/ 目录里，字体调用名称为 simhei 。
+
+	-------------- THEMES 主题--------------
+	--theme=<theme> - Set default theme color
+	Themes: brave|carbonite|dust|human*星号表示此为默认值|noble|tribute|wine|wise|
+	        ambiance|radiance|elementary|
+	        cyan天蓝|blue蓝|orange桔|red红|green绿|purple紫|black黑|white白|
+	        custom
+只有radiance和black主题会影响图标颜色，其他主题只影响数值的颜色。
+	Work only with --theme=custom 自定义颜色必须用这项
+		--default-color=<value>
+		--color0=<value> 图标颜色
+		--color1=<value> 温度百分比颜色
+		--color2=<value> 数值和条形图颜色
+		--color3=<value> 
+	--dark - Set Dark Brightness 全部暗色
+
+	-------------- DEFAULT MODE 默认模式--------------
+	--<logo> -替换计算机图标为其他LOGO图标 Replace computer icon for distro Logo
+	Logos: ubuntu|fedora|opensuse|debian|arch|gentoo|pardus|xfce|gnome
+	--cpu=<number> -CPU内核数，双核用2，四核用4 Set number of cpu cores
+	--cputemp -显示CPU温度 Enable CPU temperature
+如果CPU温度没有显示，修改conkyrc配置文件中的"sensors | grep 'Core 0'把Core 0之间的空格删除（或补上），如果是多核CPU，还要删除（或补上）Core 1或Core 2等等的空格。
+	--swap -如果有交换分区可以启用这项 Enable SWAP 
+	--battery -电池状态，笔记本电脑可以启用 Enable battery 
+	--battery-value=<number> -电池设备数，笔记本电脑可以启用 Change battery device number </proc/acpi/battery>
+	--updates -显示等待升级软件包的数量 Show updates for Debian/Ubuntu
+	--proc=<number> -显示运行中的进程，最多10个 Enable processes [Max = 10]
+	--clock=时钟<default大数字|classic粗指针|slim细指针|modern数字|lucky带表盘|digital电子表|off关闭>
+	--nodata -不显示时间数据 disable Data
+	--calendar -显示日历（星期日在第一排，符合中国习惯） Enable calendar
+	--calendarm -设置日历的星期一在第一排（需要设置更多参数） Enable calendar with monday as first day
+	--calendarzim -（不可用，提示段错误 (核心已转储)） Enable calendar with Zim support
+	--nvidia -显示Nvidia显卡温度时钟显存驱动版本等信息 Enable nvidia gpu
+	--task -显示ct命令任务列表 Enable Task [type "ct help" in terminal for info]
+	--hd=显示硬盘信息<default默认|meerkat饼状图少数据|mix饼状图多数据|simple类似Ipod图> -显示硬盘分区使用情况 Enable HD
+	--hdtemp1=<device> -硬盘温度，sda表示第一个SATA硬盘 Enable HD temperature [Ex: --hdtemp1=sda]
+	--hdtemp2=<device> - Enable HD temperature [Ex: --hdtemp2=sdb]
+	--hdtemp3=<device> - Enable HD temperature [Ex: --hdtemp3=sdc]
+	--hdtemp4=<device> - Enable HD temperature [Ex: --hdtemp4=sdd]
+硬盘信息的汉化需要修改/usr/share/conkycolors/scripts/conkyHD1.py等文件
+在第一行 #!/usr/bin/env python 这一行下面添加一行 # -*- coding:utf-8 -*-
+	--photo -启用图片 Enable Photo
+在~/.conkycolors/bin/里的conkyPhoto文件或者conkyPhotoRandom文件中指定图片目录
+	--photord -随机播放图片幻灯片 Enable Photo in random mode
+###修改conkyrc配置文件中的 ${execi 30 ~/.conkycolors/bin/conkyPhotoRandom}${image /tmp/conkyPhoto.png -s 174x110 -p 14,350}这一行文字，其中30是30秒换一张图片。-s 174x110是指显示的图片的大小。相册的位置是-p项。14，是横值，350是竖值。横值一般不必调整，竖值就可以调整图片处于整个屏幕右端的高低。此外，还可以修改图片的显示方式，在 theme= 这个项目，有三种：1 大边框 2 无边框 3 细边框（默认）。
+	--mpd -显示mpd音乐播放器状态 Enable MPD
+	--banshee=<default|cd|case|glassy|vinyl|oldvinyl|simple>显示banshee音乐播放器状态
+	--clementine=<default|cd|case|glassy|vinyl|oldvinyl|simple>显示clementine音乐播放器状态
+	--exaile=<default|cd|case|glassy|vinyl|oldvinyl|simple>显示exaile音乐播放器状态
+	--rhythmbox=<default喇叭符号|cd光盘封面|case盒子|glassy透明盒子|vinyl音量图标|oldvinyl唱片|simple音符符号>显示rhythmbox音乐播放器状态（Ubuntu默认的播放器）
+	--covergloobus -显示covergloobus音乐播放器状态 Enable CoverGloobus
+在media player项上调整cd封面的高低要修改 ～/.conkycolors/templates/conkyPlayer.template文件。和调整图片的方法相似。${image /tmp/conkycolors/conkyCover.png -s 88x62 -p 16,505}其中 =s 是指图片的大小像素。-p 就是position了。16还是横值，505就是竖值了。
+关于conky显示CD封面的情况：这个只对本地mp3有用，而且你必须是一个很好的音乐收藏的玩家。好像conky不能调用.cahe文件，而且不能调用目录名字有空格的目录。
+在conkyPlayer.template文件中${image /tmp/conkycolors/iconkyCover.png -s 88x62 -p 16,553}改成并添加下面添加后2行代码:
+${image ～/.conkeycolors/icons/top.png -s 88x62 -p 16,553}${image ～/.conkeycolors/icons/你的播放器图标文件.png -s 60x60 -p 16,553}${image 你的音乐文件夹路径/[--datatype=AR]/AlbumArtSmall.jpg -s 60x60 -p 16,553}
+记住这3行命令是没有空格和回车的。如果你这三个图片不能重合，可以修改-s 88x62 -p 16,553的具体参数,来重合。如果你播放的mp3没图片的话，conky自己显示前2个命令，如果有的话第三个命令会覆盖第二个命令。
+${image 你的音乐文件夹路径/[--datatype=AR]/AlbumArtSmall.jpg -s 60x60 -p 16,553}这个是你音乐以歌手名字为目录。[--datatype=AR]（歌手） [--datatype=AL]（专辑） [--datatype=TI]（歌名）三个可选。具体你音乐目录名字来确定。AlbumArtSmall.jpg Folder.jpg Cover.jpg 三个可选。具体看你是怎么收藏音乐的。我一般是以 /歌手/专辑/歌名.mp3这样放的。liunx下是不能把不同歌手或专辑放在同一目录下的，不然你是没办法下载专辑图片和歌曲图片的，而且不支持mp3文件内置图片。不像Windows。而且windows下这些图片文件你是看不到的。
+	--pidgin -显示即时通讯信息 Enable Pidgin
+		--limit=<number> - [default: 5] Limit to the number of buddies displayed
+	--gmail -显示Gmail信箱信息 Enable gmail notify
+		--user=<username> -Gmail信箱用户名 Type your username
+		--passwd=<password> -Gmail信箱密码 Type your password
+	--network -显示网络信息 Enable network
+		--eth=<number> -指定第几个网卡设备 Change ethernet device [Default=0]
+		--wlan=<number> -指定第几个无线宽带设备 Change wireless device [Default=0]
+		--ppp=<number> -指定第几个3G拨号设备 Change 3g modem device [Default=0]
+	--unit=<C|F> -设定温度使用C摄氏或者F华氏 Force output temperature either in Celius or Fahrenheit
+	--weather=<AreaID> - Enable weather[Ex: --weather=BRXX0043] 使用weather.yahoo.com天气，请在其网站搜索栏中输入您所在的城市拼音字母（或英文名称），然后在浏览器的地址栏可以看到相应的城市代码。例如：南宁nanning的代码为CHXX0100
+	--bbcweather=<AreaID> - Enable weather[Ex: --bbcweather=3849] 使用bbcweather.co.uk天气，请在其网站搜索栏中输入您所在的城市拼音字母（或英文名称），然后在浏览器的地址栏可以看到相应的城市代码。例如：南宁nanning的代码为1586
+使用www.weather.com.cn请参考我的汉化脚本conkyrc-default-CN内说明或天气对比脚本conkyrc-weather-CN内说明，请在其网站搜索栏中输入您所在的城市拼音字母（或英文名称），然后在浏览器的地址栏可以看到相应的城市代码。例如：南宁nanning的代码为101300101
+	--side=<left|right*> -设置conky显示在屏幕左边或默认右边 Set the side of conky in your screem
+
+	-------------- CAIRO/RING MODE --------------
+	--cairo -启用开罗模式 Enable cairo-conky mode.
+	--ring -启用指环模式 Enable ring-conky mode.
+	--cpu=<number> -指定CPU内核数，双核用2，四核用4 Set number of cpu cores
+	--swap -显示交换分区使用情况 Enable SWAP [cairo-mode only]
+	--clock=<cairo数字|bigcairo表盘> - Enable/disable clock [cairo-mode only]显示/不显示时钟（仅开罗模式可用）
+	--banshee=<cairo|cairo-case|cairo-cd|cairo-glassy|lua>显示banshee播放器状态（开罗模式） [cairo-mode only]
+	--clementine=<cairo|cairo-case|cairo-cd|cairo-glassy|lua>显示clementine播放器状态（开罗模式） [cairo-mode only]
+	--exaile=<cairo|cairo-case|cairo-cd|cairo-glassy|lua>显示exaile播放器状态（开罗模式） [cairo-mode only]
+	--rhythmbox=<cairo|cairo-case|cairo-cd|cairo-glassy|lua>显示Ubuntu默认自带的rhythmbox播放器状态（开罗模式） [cairo-mode only]
+	--banshee=<ring|ring-case|ring-cd|ring-glassy>显示banshee播放器状态（指环模式） [ring-mode only]
+	--clementine=<ring|ring-case|ring-cd|ring-glassy>显示clementine播放器状态（指环模式） [ring-mode only]
+	--exaile=<ring|ring-case|ring-cd|ring-glassy>显示exaile播放器状态（指环模式） [ring-mode only]
+	--rhythmbox=<ring|ring-case|ring-cd|ring-glassy>显示Ubuntu默认自带的播放器状态（指环模式） [ring-mode only]
+	--network -显示网络状态 Enable network
+	--unit=<C|F>-设定温度使用C摄氏或者F华氏 Force output temperature either in Celius or Fahrenheit
+
+	-------------- BOARD/SLIM MODE 平板/细长模式--------------
+	--board -启用平板模式 Enable board-conky mode.
+	--slim -启用细长模式 Enable slim-conky mode.
+	--w=<width> -设置您的屏幕显示宽度 Set your screen width
+	--h=<height> -设置您的屏幕显示高度 Set your screen height
+（若刚好或超出屏幕分辨率，平板模式会刚好居中铺满整个屏幕，如果设定如宽800高600低分辨率则会缩小，但不居中）
+	--nobg -不使用背景色，即透明 remove the background
+	--poxfix=<number> -修复指环位置（不可用） fix ring position
+	--weather=<AreaID> -使用weather.yahoo.com天气 Enable weather[Ex: --weather=BRXX0043] 请在其网站搜索栏中输入您所在的城市拼音字母（或英文名称），然后在浏览器的地址栏可以看到相应的城市代码。例如：南宁nanning的代码为101300101
+	--unit=<C|F>-设定温度使用C摄氏或者F华氏 Force output temperature either in Celius or Fahrenheit
+
+	-------------- SLS MODE 简洁模式--------------
+注意：简洁模式需要与lm-sensors这个温度控制软件搭配使用，相关软件请到 www.lm-sensors.org 下载。
+	--sls -启用简洁模式 Enable SLS-conky mode.
+	--nobg -不使用背景色，即透明 remove the background
+	--weather=<AreaID> -使用weather.yahoo.com天气 Enable weather[Ex: --weather=BRXX0043] 请在其网站搜索栏中输入您所在的城市拼音字母（或英文名称），然后在浏览器的地址栏可以看到相应的城市代码。例如：南宁nanning的代码为101300101
+	--user=<username> -Gmail信箱用户名 Type your gmail username
+	--passwd=<password> -Gmail信箱密码 Type your gmail password
+
+	-------------- EXTRA OPTIONS 额外选项--------------
+	--datadir=/path/to/datadir -指定数据目录，覆盖默认数据目录 it overrides default datadir
+	--createlocalcopy -复制一个配置文件备份到用户主目录 it copies the content of system datadir to /home/用户名/.conkycolors
+	--nofilecheck -不检查已存在的文件 disables checking the presence of files
+	--default_datadir -打印排序显示默认查找每个文件的数据目录 prints the order of default datadirs in which files are searched by default.
+例如：命令conky-colors --default_datadir得到以下两个结果
+/home/用户名/.conkycolors
+/usr/share/conkycolors
+	--finddir=FILE -查找并打印显示文件所在目录 this option makes this program find and print out a directory where FILE is located.
+	--argb-value=0-255 -设定conky背景色的ARGB值，默认180（近似桔黄色）。 Set the value of own_window_argb_value, the default is 180
+	--install=local(*), system, or custom -把产生的配置文件安装到指定目录 install generated configuration files to a chosen datadir.
+	--systemdir -显示conkycolors的系统目录（默认/usr/share/conkycolors） displays the system directory for conkycolors.
+	--localdir -显示conkycolors的本地目录（默认/home/用户名/.conkycolors） displays the local directory for conkycolors.
+	
+(*)default values 星号是默认值
+
+
+
+	-------------- DEFAULT MODE 默认模式，我使用的参数样例--------------
+conky-colors --theme=custom --default-color=black --color0=cyan --color1=green --color2=orange --color3=red --ubuntu --cpu=2 --updates --proc=3 --clock=lucky --calendar --nvidia --hd=default --hdtemp1=sda --photo --photord --pidgin --network --unit=C --side=right --bbcweather=1586 --weather=CHXX0100 --rhythmbox=cd
+
+	-------------- CAIRO MODE 开罗模式，我使用的参数样例--------------
+conky-colors --cairo --cpu=2 --clock=bigcairo --rhythmbox=cairo --network --unit=C --theme=green
+
+	-------------- Ring MODE 指环模式,我使用的参数样例--------------
+conky-colors --ring --cpu=2 --clock=bigcairo --rhythmbox=ring-glassy --network --unit=C
+--theme=red
+
+	-------------- BOARD MODE 平板模式，我使用的参数样例--------------
+conky-colors --board --w=1900 --h=1080 --nobg --unit=C --theme=cyan
+
+	-------------- SLIM MODE 细长模式，我使用的参数样例--------------
+conky-colors --slim --w=1900 --h=1080 --nobg --theme=orange --unit=C --weather=CHXX0100 
+
+

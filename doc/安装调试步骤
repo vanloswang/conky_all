@@ -1,0 +1,129 @@
+使用conkycolors配置conky的方法和步骤：
+
+（一）、在“软件中心”安装 conky 1.8.1-6 高可配置性系统监视器(过渡包)
+Conky是一个可以显示系统中任何信息的系统监视器软件，它可以把信息呈现于您的默认桌面上，也可以在一个独立的窗口里。Conky有很多内建的功能，也能执行外部的程序或脚本（包括直接执行和通过内建的lua支持）。这是一个过渡包，方便过渡到新的分包方式上。您可以在安装或升级后安全地将其删除。
+
+（二）、下载安装所需的其他软件
+快捷键 Ctrl Alt T 打开一个终端，运行以下命令
+sudo apt-get install aptitude python-keyring python-statgrab ttf-ubuntu-font-family hddtemp curl lm-sensors conky-all
+sudo chmod u+s /usr/sbin/hddtemp
+sudo sensors-detect 
+安装和配置的过程中，遇到提示时，全部回答yes。
+然后重启图形界面（注销重新登录，或者重启电脑）。
+
+（三）、下载conkycolors并编译安装
+官方网址 http://gnome-look.org/content/show.php/CONKY-colors?content=92328
+下载页面 http://helmuthdu.deviantart.com/art/CONKY-COLORS-244793180? 
+点击右边的 Download File 即可开始下载。
+
+下载后，放在用户主目录下，解压缩，得到conky_colors目录
+快捷键 Ctrl Alt T 终端运行以下命令编译安装
+cd conky_colors
+make
+sudo make install
+
+（四）、配置生成conkyrc文件
+快捷键 Ctrl Alt T 打开一个终端运行以下命令查看帮助，
+$conky-colors --help
+按自己需要实现的功能选择相应参数，然后运行conky-colors生成.conkycolors目录和相关文件，例如：
+conky-colors --theme=custom --default-color=black --color0=cyan --color1=green --color2=orange --color3=red --ubuntu --cpu=2 --updates --proc=3 --clock=lucky --calendar --nvidia --hd=default --hdtemp1=sda --photo --photord --pidgin --network --unit=C --side=right --bbcweather=1586 --weather=CHXX0100 --rhythmbox=cd
+
+出现提示
+Ubuntu/Debian distro? [y][n]:
+根据您所使用的是不是Ubuntu系统或Debian系统，选择y或n 。
+也可以直接回车，又出现一个提示：
+[u]nity or [g]nome-shell: 
+根据您所使用的是Unity桌面还是Gnome桌面，选择u或g 。
+
+然后生成conkyrc配置文件，存放在 /home/用户名/.conkycolors 目录下
+提示：在Linux中，凡是名称以点号开头的文件或文件夹，默认都是隐藏不见的。
+在窗口中，按下 Ctrl H 键即可显示隐藏文件。
+在终端下，可以用 ls -a 命令查看隐藏文件。
+
+如果安装了新的字体，可以在终端运行以下命令更新系统的字体缓存
+sudo fc-cache -v -f
+
+（五）、测试和修改
+（1）、在测试之前，使用Unity桌面的用户请注意：
+a、如果安装有Gnome Tweak Tool的话，
+点击左侧“Dash主页”->“更多程序”->“自定义”->“已安装程序”->“高级设置”
+在弹出的窗口中，确保“Desktop桌面”里的第一行Have file manager handle the desktop是“开启”状态。
+
+b、如果安装有gconf-editor的话，快捷键 Ctrl Alt T 打开一个终端运行gconf-editor，
+在“配置编辑器”窗口中确保 / -> apps -> nautilus -> preferences ->右边的show_desktop是勾选上的。
+
+使用Unity桌面的用户，如果不这样设置，就运行conky，会产生“花屏”的故障。
+但是，这样设置之后，3D桌面特效的“不同桌面不同壁纸”功能就没有了，鱼和熊掌不能兼得。
+使用Gnome 3桌面的用户，没有这样的问题，不论是否做这些设定都没有影响。
+
+（2）、现在开始测试:
+快捷键 Ctrl Alt T 打开一个终端，运行以下命令测试conkyrc配置文件，按 Ctrl C 可以结束进程。
+conky -c ~/.conkycolors/conkyrc
+可以一边运行着conky一边修改编辑conkyrc配置文件，快捷键 Ctrl Alt T 打开一个终端，运行以下命令，
+编辑好后，不用关闭，点击保存2次就能触发conky刷新，就能看到修改后的效果。
+gedit ~/.conkycolors/conkyrc &
+
+（3）、测试的过程中，
+如果带有天气股票等需要访问网络的栏目，则conkyrc启动的过程会稍微慢一些，这是网络延迟造成的正常现像。
+有时图片幻灯片会无法显示，“我的相册”栏目变成空白，不用担心，过一会就能恢复正常。
+如果脚本程序有错误，刚conkyrc启动时终端会有出错提示。如果长时间没有反应，按 Ctrl C 可以结束进程。
+
+（六）、使用我的CN汉化配置文件
+我的conkycolors_CN.tar.gz.txt文件压缩包，下载后请重新命名，删除.txt后缀，然后解压缩
+其中包括了已经汉化的各个模式配置文件、以及相关的程序脚本，请复制到指定的目录。
+注意：您至少需要执行一次带参数的conky-colors命令，才能生成.conkycolors目录和相关文件，
+有些程序脚本，也是需要您执行带有相关参数的conky-colors命令，才会生成，例如：多媒体程序和图片程序。
+
+————以下文件复制到 ~/.conkycolors/ 目录
+conkyrc-default-CN　　默认模式配置文件——已汉化
+conkyrc-cairo-CN　　　开罗模式配置文件——已汉化
+conkyrc-ring-CN　　　指环模式配置文件——已汉化
+conkyrc-board　　　　平板模式配置文件——不需要汉化
+conkyrc-slim　　　　　细长模式配置文件——不需要汉化
+conkyrc-weather-CN　　三个网站的天气配置文件——已汉化
+conkyrc　　　　　　　　链接文件，用于切换conkycolors模式
+
+————以下文件复制到 ~/.conkycolors/bin 目录
+lunar　　　　　　　　农历程序文件
+mond　　　　　　　　月相程序文件（需要与农历程序文件搭配使用）
+stockwidget　　　　　股票程序文件
+
+————以下文件复制到 /usr/share/conkycolors/scripts/ 目录
+（需要使用命令 sudo nautilus 以管理员身份在窗口中复制粘贴）
+conkyBoard.lua　　　　平板模式程序文件——已汉化
+conkySlim.lua　　　　细长模式程序文件——已汉化
+conkyHD1.py　　　　　硬盘信息程序文件——已汉化
+
+————以下文件为相关教程和使用指南
+安装调试步骤
+conkycolors_805_参数说明
+conkyrc-default-CN详解分析
+
+（七）、自定义：主题颜色、图片目录、城市天气
+也许我的CN汉化配置文件里设定的颜色，与您的桌面背景颜色并不搭配，您可以修改自定义的颜色。
+主题颜色————位于CN汉化配置文件的 Graphics settings 栏目下，default_color默认色，color0 图标颜色 color1 温度百分比颜色 color2 数值和进度条颜色 color3 自定义备用颜色。
+图片目录————位于 ~/.conkycolors/bin/conkyPhotoRandom 文件的 source= 项目中，默认是系统 /usr/share/backgrounds 里的桌面壁纸图片，您可以修改为用户主目录的图片文件夹 ~/图片
+城市天气————位于CN汉化配置文件的 WEATHER 栏目下，请在www.weather.com.cn网站搜索栏中输入您所在的城市拼音字母（或英文名称），然后在浏览器的地址栏可以看到相应的城市代码。例如：南宁nanning的代码为101300101。把城市代码复制到程序中，替换原来的城市代码位置。
+
+（八）、设定开机自动运行
+启动器栏的“Dash主页”->“应用程序”->“自定义”->“已安装”->“启动应用程序”->点击“添加”按钮，
+在弹出的“添加启动程序”窗口中，“名称”和“注释”栏可以任意输入，在“命令”这栏输入
+/usr/share/conkycolors/bin/conkyStart
+
+开机自启动命令为什么不使用之前测试时的 conky -c ~/.conkycolors/conkyrc 命令呢？
+这是因为 /usr/share/conkycolors/bin/conkyStart 命令运行时会“故意”sleep等待25秒钟，
+因此conky -c ~/.conkycolors/conkyrc 启动速度比 /usr/share/conkycolors/bin/conkyStart 快，
+在开机时如果使用conky -c ~/.conkycolors/conkyrc 的话，会造成conky已经提前启动，
+而此时桌面还没启动完，conky比桌面更早出现，形成难看的默认的黑色界面，
+所以应该在开机时使用比较启动慢的 /usr/share/conkycolors/bin/conkyStart 命令。
+
+（九）、轻松切换conkycolors模式
+之前设定的开机自动运行的文件conkyStart默认调用的也是~/.conkycolors/conkyrc文件，
+所以，我们准备好了几个模式的CN汉化配置文件之后，
+只需使用 ln -s 命令就能很方便地把conkyrc文件链接到诸如conkyrc-default-CN的汉化配置文件上，
+不需要再修改“启动应用程序”或conkyStart文件，就能实现轻松切换conkycolors模式，岂不快哉！
+rm ~/.conkycolors/conkyrc
+ln -s ~/.conkycolors/conkyrc-default-CN ~/.conkycolors/conkyrc
+这样，在下次启动电脑时，或者再次执行 conky -c ~/.conkycolors/conkyrc 时，就已经更换了模式了。
+
+
